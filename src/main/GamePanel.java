@@ -1,29 +1,28 @@
 package main;
 
+import entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     // tiles
     final int ORIGINAL_TILE_SIZE = 16;
     final int SCALE = 4;
-    final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
 
     // screen size
     final int SCREEN_TILE_WIDTH = 16;
-    final int SCREEN_WIDTH = SCREEN_TILE_WIDTH * TILE_SIZE;
+    public final int SCREEN_WIDTH = SCREEN_TILE_WIDTH * TILE_SIZE;
     final int SCREEN_TILE_HEIGHT = 12;
-    final int SCREEN_HEIGHT = SCREEN_TILE_HEIGHT * TILE_SIZE;
+    public final int SCREEN_HEIGHT = SCREEN_TILE_HEIGHT * TILE_SIZE;
 
     final double FPS = 60;
 
     Thread gameThread;
     KeyHandler keyHandler = new KeyHandler();
 
-    int playerX = this.SCREEN_WIDTH / 2;
-    int playerY = this.SCREEN_HEIGHT / 2;
-    int DEFAULT_PLAYER_SPEED = 5;
-    int playerSpeed = DEFAULT_PLAYER_SPEED;
+    Player player = new Player(this, keyHandler);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT)); // sets the screen size
@@ -60,25 +59,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update() {
-        // player movement
-        if (keyHandler.isPressedW) {
-            playerY -= playerSpeed;
-        }
-        if (keyHandler.isPressedA) {
-            playerX -= playerSpeed;
-        }
-        if (keyHandler.isPressedS) {
-            playerY += playerSpeed;
-        }
-        if (keyHandler.isPressedD) {
-            playerX += playerSpeed;
-        }
-
-        if (keyHandler.isPressedShift) {
-            playerSpeed = 8;
-        } else {
-            playerSpeed = DEFAULT_PLAYER_SPEED;
-        }
+        player.update();
     }
 
     public void paintComponent(Graphics g) {
@@ -86,8 +67,8 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D) g;
 
-        g2.setColor(Color.white);
-        g2.fillRect(playerX, playerY, TILE_SIZE, TILE_SIZE);
+        player.draw(g2);
+
         g2.dispose();
     }
 }
