@@ -90,7 +90,7 @@ public class Player extends Entity {
 
         // player animation
         this.spriteCounter++;
-        if (spriteCounter >= 20) { // activates after every n frames per second (currently 20)
+        if (spriteCounter >= 12) { // activates after every n frames per second (currently 20)
             // changes sprite number in a cycle when it is activated (1 -> 2, 2 -> 3, 3 -> 4, 4 -> 1)
             if (spriteNumber == 1) {
                 spriteNumber = 2;
@@ -111,10 +111,10 @@ public class Player extends Entity {
 
         switch (this.direction) {
             case "still": // if idle
-                if (spriteNumber == 1 || spriteNumber == 3) {
-                    image = still1;
-                } else {
+                if (spriteNumber == 4) {
                     image = still2;
+                } else {
+                    image = still1;
                 }
                 break;
 
